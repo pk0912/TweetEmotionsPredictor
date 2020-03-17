@@ -15,4 +15,3 @@ os.makedirs(os.path.join(settings.ROOT_DIR, "tests"), exist_ok=True)
 os.makedirs(os.path.join(settings.ROOT_DIR, "docs"), exist_ok=True)
 
 sys.path.insert(0, settings.ROOT_DIR)
-
