@@ -9,7 +9,8 @@ from sklearn.model_selection import StratifiedShuffleSplit
 
 DATA_DIR = "data/"
 
-ORIG_DATA_DIR = os.path.join(DATA_DIR, "orig_data/sa-emotions")
+RAW_DATA_DIR = os.path.join(DATA_DIR, "orig_data/")
+ORIG_DATA_DIR = os.path.join(RAW_DATA_DIR, "sa-emotions")
 TRAIN_DIR = os.path.join(DATA_DIR, "training_data")
 VALID_DIR = os.path.join(DATA_DIR, "validation_data")
 TEST_DIR = os.path.join(DATA_DIR, "testing_data")
@@ -50,26 +51,16 @@ def save_to_multiple_csv_files(data, save_path, name_prefix, header, n_parts=10)
     return filepaths
 
 
-def perform_split():
+def perform_raw_split():
     data = read_csv_data(os.path.join(ORIG_DATA_DIR, "train_data.csv"))
     data = data.drop_duplicates(subset="content").reset_index(drop=True)
     data = data.sample(frac=1, random_state=LUCKY_SEED).reset_index(drop=True)
     train_data, val_data = stratified_split(data)
-    header_cols = ["sentiment", "content"]
-    header = ",".join(header_cols)
-    print(
-        save_to_multiple_csv_files(
-            train_data.values, TRAIN_DIR, "train", header, n_parts=TRAIN_FILE_COUNT
-        )
-    )
-    print(
-        save_to_multiple_csv_files(
-            val_data.values, VALID_DIR, "val", header, n_parts=VAL_FILE_COUNT
-        )
-    )
     test_data = read_csv_data(os.path.join(ORIG_DATA_DIR, "test_data.csv"))
+    train_data.to_csv(os.path.join(RAW_DATA_DIR, "train.csv"), index=None, encoding="utf-8")
+    val_data.to_csv(os.path.join(RAW_DATA_DIR, "val.csv"), index=None, encoding="utf-8")
     test_data.to_csv(os.path.join(TEST_DIR, "test.csv"), index=None, encoding="utf-8")
 
 
 if __name__ == "__main__":
-    perform_split()
+    perform_raw_split()
