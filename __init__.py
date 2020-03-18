@@ -14,6 +14,7 @@ os.makedirs(os.path.join(settings.ROOT_DIR, "data/processed_data"), exist_ok=Tru
 os.makedirs(os.path.join(settings.ROOT_DIR, "data/training_data"), exist_ok=True)
 os.makedirs(os.path.join(settings.ROOT_DIR, "data/validation_data"), exist_ok=True)
 os.makedirs(os.path.join(settings.ROOT_DIR, "data/testing_data"), exist_ok=True)
+os.makedirs(os.path.join(settings.ROOT_DIR, "data/orig_data/others"), exist_ok=True)
 
 # For text based data
 os.makedirs(os.path.join(settings.ROOT_DIR, "data/processed_data/simple"), exist_ok=True)
