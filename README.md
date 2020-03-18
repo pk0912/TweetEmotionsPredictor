@@ -1,6 +1,6 @@
-# PROJECT NAME
+# Tweet Emotions Predictor
 
-PROJECT DESCRIPTION
+Performing sentiment analysis over tweets to predict emotions attached with the tweets.
 
 ---
 
