@@ -5,6 +5,7 @@ Python file containing methods that are common requirement throughout the projec
 from urllib import request
 import pandas as pd
 from joblib import dump
+from settings import LUCKY_SEED
 
 
 class Singleton(type):

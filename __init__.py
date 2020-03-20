@@ -24,22 +24,6 @@ os.makedirs(
     os.path.join(settings.ROOT_DIR, "data/processed_data/complex"), exist_ok=True
 )
 os.makedirs(
-    os.path.join(settings.ROOT_DIR, "data/processed_data/simple/training_data"),
-    exist_ok=True,
-)
-os.makedirs(
-    os.path.join(settings.ROOT_DIR, "data/processed_data/simple/validation_data"),
-    exist_ok=True,
-)
-os.makedirs(
-    os.path.join(settings.ROOT_DIR, "data/processed_data/complex/training_data"),
-    exist_ok=True,
-)
-os.makedirs(
-    os.path.join(settings.ROOT_DIR, "data/processed_data/complex/validation_data"),
-    exist_ok=True,
-)
-os.makedirs(
     os.path.join(settings.ROOT_DIR, "data/training_data/one_hot_encoded"), exist_ok=True
 )
 os.makedirs(
