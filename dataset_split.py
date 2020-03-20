@@ -7,27 +7,19 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import StratifiedShuffleSplit
 
-DATA_DIR = "data/"
-
-RAW_DATA_DIR = os.path.join(DATA_DIR, "raw_data/")
-ORIG_DATA_DIR = os.path.join(RAW_DATA_DIR, "sa-emotions")
-TRAIN_DIR = os.path.join(DATA_DIR, "training_data")
-VALID_DIR = os.path.join(DATA_DIR, "validation_data")
-TEST_DIR = os.path.join(DATA_DIR, "testing_data")
-
-LUCKY_SEED = 42
-TRAIN_FILE_COUNT = 43
-VAL_FILE_COUNT = 12
+from settings import RAW_DATA_DIR, ORIG_DATA_DIR, TEST_DATA_DIR, LUCKY_SEED
 
 
-def read_csv_data(path):
-    return pd.read_csv(path)
+def read_csv_data(path, header="infer"):
+    return pd.read_csv(path, header=header, encoding="utf-8")
 
 
 def stratified_split(data, split_col, n_splits=1, split_ratio=0.2):
     split = StratifiedShuffleSplit(
         n_splits=n_splits, test_size=split_ratio, random_state=LUCKY_SEED
     )
+    train_set = None
+    test_set = None
     for train_index, test_index in split.split(data, data[split_col]):
         train_set = data.loc[train_index]
         test_set = data.loc[test_index]
@@ -58,10 +50,14 @@ def perform_raw_split():
     train_data, val_data = stratified_split(data, split_col="sentiment")
     test_data = read_csv_data(os.path.join(ORIG_DATA_DIR, "test_data.csv"))
     train_data.to_csv(
-        os.path.join(RAW_DATA_DIR, "train.csv"), index=None, encoding="utf-8"
+        os.path.join(RAW_DATA_DIR, "train.csv"), index=False, encoding="utf-8"
     )
-    val_data.to_csv(os.path.join(RAW_DATA_DIR, "val.csv"), index=None, encoding="utf-8")
-    test_data.to_csv(os.path.join(TEST_DIR, "test.csv"), index=None, encoding="utf-8")
+    val_data.to_csv(
+        os.path.join(RAW_DATA_DIR, "val.csv"), index=False, encoding="utf-8"
+    )
+    test_data.to_csv(
+        os.path.join(TEST_DATA_DIR, "test.csv"), index=False, encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":

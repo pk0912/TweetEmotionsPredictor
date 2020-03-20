@@ -13,6 +13,9 @@ import pandas as pd
 from utils import download_and_write_to_file
 from dataset_split import stratified_split
 
+from settings import RAW_DATA_DIR, ORIG_DATA_DIR, OTHERS_RAW_DATA, LUCKY_SEED
+
+
 file_urls = [
     "http://saifmohammad.com/WebDocs/EmoInt%20Train%20Data/anger-ratings-0to1.train.txt",
     "http://saifmohammad.com/WebDocs/EmoInt%20Train%20Data/fear-ratings-0to1.train.txt",
@@ -28,14 +31,6 @@ file_urls = [
     "http://saifmohammad.com/WebDocs/EmoInt%20Test%20Data/sadness-ratings-0to1.test.target.txt",
 ]
 
-DATA_DIR = "data/"
-
-RAW_DATA_DIR = os.path.join(DATA_DIR, "raw_data")
-ORIG_DATA_DIR = os.path.join(RAW_DATA_DIR, "sa-emotions")
-OTHERS_RAW_DATA = os.path.join(RAW_DATA_DIR, "others")
-
-LUCKY_SEED = 42
-
 
 def fetch_and_save_raw_data():
     for url in file_urls:
@@ -46,7 +41,10 @@ def fetch_and_save_raw_data():
 
 def merge_dataset(df_list, drop_dup_cols):
     return (
-        pd.concat(df_list).sample(frac=1, random_state=LUCKY_SEED).drop_duplicates(subset=drop_dup_cols).reset_index(drop=True)
+        pd.concat(df_list)
+        .sample(frac=1, random_state=LUCKY_SEED)
+        .drop_duplicates(subset=drop_dup_cols)
+        .reset_index(drop=True)
     )
 
 
@@ -156,5 +154,5 @@ def read_all_data():
 
 
 if __name__ == "__main__":
-    fetch_and_save_raw_data()
+    # fetch_and_save_raw_data()
     read_all_data()
