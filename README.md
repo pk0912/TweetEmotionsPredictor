@@ -24,5 +24,5 @@ Performing sentiment analysis over tweets to predict emotions attached with the 
 ```bash
 make -f Makefile
 python __init__.py
-python download_data.py
+python raw_data_ingest_merge.py
 ```
