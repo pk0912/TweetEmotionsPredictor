@@ -9,7 +9,7 @@ from sklearn.model_selection import StratifiedShuffleSplit
 
 DATA_DIR = "data/"
 
-RAW_DATA_DIR = os.path.join(DATA_DIR, "orig_data/")
+RAW_DATA_DIR = os.path.join(DATA_DIR, "raw_data/")
 ORIG_DATA_DIR = os.path.join(RAW_DATA_DIR, "sa-emotions")
 TRAIN_DIR = os.path.join(DATA_DIR, "training_data")
 VALID_DIR = os.path.join(DATA_DIR, "validation_data")
@@ -24,11 +24,11 @@ def read_csv_data(path):
     return pd.read_csv(path)
 
 
-def stratified_split(data, n_splits=1, split_ratio=0.2):
+def stratified_split(data, split_col, n_splits=1, split_ratio=0.2):
     split = StratifiedShuffleSplit(
         n_splits=n_splits, test_size=split_ratio, random_state=LUCKY_SEED
     )
-    for train_index, test_index in split.split(data, data["sentiment"]):
+    for train_index, test_index in split.split(data, data[split_col]):
         train_set = data.loc[train_index]
         test_set = data.loc[test_index]
     return train_set, test_set
@@ -55,9 +55,11 @@ def perform_raw_split():
     data = read_csv_data(os.path.join(ORIG_DATA_DIR, "train_data.csv"))
     data = data.drop_duplicates(subset="content").reset_index(drop=True)
     data = data.sample(frac=1, random_state=LUCKY_SEED).reset_index(drop=True)
-    train_data, val_data = stratified_split(data)
+    train_data, val_data = stratified_split(data, split_col="sentiment")
     test_data = read_csv_data(os.path.join(ORIG_DATA_DIR, "test_data.csv"))
-    train_data.to_csv(os.path.join(RAW_DATA_DIR, "train.csv"), index=None, encoding="utf-8")
+    train_data.to_csv(
+        os.path.join(RAW_DATA_DIR, "train.csv"), index=None, encoding="utf-8"
+    )
     val_data.to_csv(os.path.join(RAW_DATA_DIR, "val.csv"), index=None, encoding="utf-8")
     test_data.to_csv(os.path.join(TEST_DIR, "test.csv"), index=None, encoding="utf-8")
 
