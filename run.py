@@ -1,8 +1,8 @@
 """
 Entry point for training and predicting
 """
-
-from utils import logger
+import __init__
+from utils.helpers import logger
 
 
 def main():

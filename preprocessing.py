@@ -6,7 +6,7 @@ import os
 import re
 import pandas as pd
 
-import text_processing as tp
+import utils.text_processing as tp
 from settings import RAW_DATA_DIR, COMPLEX_PROCESSED_DATA_DIR, SIMPLE_PROCESSED_DATA_DIR
 
 
@@ -60,9 +60,7 @@ if __name__ == "__main__":
         encoding="utf-8",
     )
     train_data_complex.to_csv(
-        os.path.join(
-            COMPLEX_PROCESSED_DATA_DIR, "train_data_complex.csv"
-        ),
+        os.path.join(COMPLEX_PROCESSED_DATA_DIR, "train_data_complex.csv"),
         index=False,
         encoding="utf-8",
     )
@@ -72,9 +70,7 @@ if __name__ == "__main__":
         encoding="utf-8",
     )
     val_data_complex.to_csv(
-        os.path.join(
-            COMPLEX_PROCESSED_DATA_DIR, "val_data_complex.csv"
-        ),
+        os.path.join(COMPLEX_PROCESSED_DATA_DIR, "val_data_complex.csv"),
         index=False,
         encoding="utf-8",
     )

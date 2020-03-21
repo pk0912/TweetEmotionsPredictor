@@ -7,7 +7,14 @@ import logging.handlers as lh
 from urllib import request
 import pandas as pd
 from joblib import dump
-from settings import LUCKY_SEED, LOG_FILE, LOG_FORMAT, LOG_LEVEL, LOG_FILE_MAX_BYTES, LOG_FILE_BACKUP_COUNT
+from settings import (
+    LUCKY_SEED,
+    LOG_FILE,
+    LOG_FORMAT,
+    LOG_LEVEL,
+    LOG_FILE_MAX_BYTES,
+    LOG_FILE_BACKUP_COUNT,
+)
 
 
 class Singleton(type):
@@ -22,7 +29,9 @@ class Singleton(type):
 class Logging(metaclass=Singleton):
     def __init__(self):
         self.logging = logging.getLogger("Sentiment Analysis")
-        log_handler = lh.RotatingFileHandler(LOG_FILE, maxBytes=LOG_FILE_MAX_BYTES, backupCount=LOG_FILE_BACKUP_COUNT)
+        log_handler = lh.RotatingFileHandler(
+            LOG_FILE, maxBytes=LOG_FILE_MAX_BYTES, backupCount=LOG_FILE_BACKUP_COUNT
+        )
         formatter = logging.Formatter(LOG_FORMAT)
         log_handler.setFormatter(formatter)
         self.logging.addHandler(log_handler)

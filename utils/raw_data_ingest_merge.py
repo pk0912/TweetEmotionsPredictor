@@ -10,8 +10,8 @@
 
 import os
 import pandas as pd
-from utils import download_and_write_to_file
-from dataset_split import stratified_split
+from .helpers import download_and_write_to_file
+from .dataset_split import stratified_split
 
 from settings import RAW_DATA_DIR, ORIG_DATA_DIR, OTHERS_RAW_DATA, LUCKY_SEED
 

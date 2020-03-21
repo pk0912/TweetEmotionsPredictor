@@ -12,7 +12,7 @@ from sklearn.metrics import silhouette_score
 from wordcloud import STOPWORDS
 
 from settings import LUCKY_SEED, SPACY_MEDIUM_MODEL, TF_HUB_EMBEDDING_MODELS
-from utils import Singleton
+from .helpers import Singleton
 
 
 class TFEmbeddingModels(metaclass=Singleton):

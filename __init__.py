@@ -3,6 +3,7 @@ import sys
 
 import settings
 
+os.makedirs(os.path.join(settings.ROOT_DIR, "utils"), exist_ok=True)
 os.makedirs(os.path.join(settings.ROOT_DIR, "data"), exist_ok=True)
 os.makedirs(os.path.join(settings.ROOT_DIR, "objects"), exist_ok=True)
 os.makedirs(os.path.join(settings.ROOT_DIR, "notebooks"), exist_ok=True)
