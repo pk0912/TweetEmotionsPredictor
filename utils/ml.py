@@ -43,6 +43,7 @@ def perform_dim_reduction(algo_type, params):
         return KernelPCA(**params, n_jobs=-1, random_state=LUCKY_SEED)
     elif algo_type == "lle":
         return LocallyLinearEmbedding(**params, n_jobs=-1, random_state=LUCKY_SEED)
+    return None
 
 
 def perform_outlier_analysis(algo_type, params):
@@ -50,11 +51,13 @@ def perform_outlier_analysis(algo_type, params):
         return IsolationForest(
             **params, contamination="auto", n_jobs=-1, random_state=LUCKY_SEED
         )
+    return None
 
 
 def perform_clustering(algo_type, params):
     if algo_type == "kmeans":
         return KMeans(**params, n_jobs=-1, random_state=LUCKY_SEED)
+    return None
 
 
 def evaluate_clustering(algo_type, params, data):
@@ -62,3 +65,4 @@ def evaluate_clustering(algo_type, params, data):
         km = KMeans(**params, n_jobs=-1, random_state=LUCKY_SEED)
         cluster_labels = km.fit_predict(data)
         return silhouette_score(data, cluster_labels)
+    return None

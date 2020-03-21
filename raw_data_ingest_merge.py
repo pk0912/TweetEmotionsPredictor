@@ -50,105 +50,110 @@ def merge_dataset(df_list, drop_dup_cols):
 
 def read_all_data():
     logger.info("Creating raw training, validation and testing dataset.")
-    kaggle_data = pd.read_csv(os.path.join(ORIG_DATA_DIR, "train_data.csv"))
-    anger_0 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "anger-ratings-0to1.train.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    anger_1 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "anger-ratings-0to1.dev.target.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    fear_0 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "fear-ratings-0to1.train.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    fear_1 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "fear-ratings-0to1.dev.gold.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    joy_0 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "joy-ratings-0to1.train.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    joy_1 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "joy-ratings-0to1.dev.gold.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    sadness_0 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "sadness-ratings-0to1.train.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    sadness_1 = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "sadness-ratings-0to1.dev.gold.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    kaggle_test_data = pd.read_csv(os.path.join(ORIG_DATA_DIR, "test_data.csv"))
-    anger_test_data = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "anger-ratings-0to1.test.target.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    fear_test_data = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "fear-ratings-0to1.test.target.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    joy_test_data = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "joy-ratings-0to1.test.target.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    sadness_test_data = pd.read_csv(
-        os.path.join(OTHERS_RAW_DATA, "sadness-ratings-0to1.test.target.txt"),
-        sep="\t",
-        header=None,
-    )[[1, 2]]
-    other_data = merge_dataset(
-        [
-            anger_0,
-            anger_1,
-            anger_test_data,
-            fear_0,
-            fear_1,
-            fear_test_data,
-            joy_0,
-            joy_1,
-            joy_test_data,
-            sadness_0,
-            sadness_1,
-            sadness_test_data,
-        ],
-        [1],
-    )
-    other_data = other_data.rename(columns={1: "content", 2: "sentiment"})
-    other_data.loc[other_data["sentiment"] == "joy", "sentiment"] = "happiness"
-    other_train_data, other_test_data = stratified_split(
-        other_data, "sentiment", split_ratio=0.15
-    )
-    merged_train_data = merge_dataset([kaggle_data, other_train_data], "content")
-    train_data, val_data = stratified_split(merged_train_data, split_col="sentiment")
-    train_data.to_csv(
-        os.path.join(RAW_DATA_DIR, "raw_train_data.csv"), index=None, encoding="utf-8"
-    )
-    val_data.to_csv(
-        os.path.join(RAW_DATA_DIR, "raw_val_data.csv"), index=None, encoding="utf-8"
-    )
-    other_test_data.to_csv(
-        os.path.join(RAW_DATA_DIR, "raw_test_data_others.csv"),
-        index=None,
-        encoding="utf-8",
-    )
-    kaggle_test_data.to_csv(
-        os.path.join(RAW_DATA_DIR, "raw_test_data_kaggle.csv"),
-        index=None,
-        encoding="utf-8",
-    )
+    try:
+        kaggle_data = pd.read_csv(os.path.join(ORIG_DATA_DIR, "train_data.csv"))
+        anger_0 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "anger-ratings-0to1.train.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        anger_1 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "anger-ratings-0to1.dev.target.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        fear_0 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "fear-ratings-0to1.train.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        fear_1 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "fear-ratings-0to1.dev.gold.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        joy_0 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "joy-ratings-0to1.train.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        joy_1 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "joy-ratings-0to1.dev.gold.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        sadness_0 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "sadness-ratings-0to1.train.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        sadness_1 = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "sadness-ratings-0to1.dev.gold.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        kaggle_test_data = pd.read_csv(os.path.join(ORIG_DATA_DIR, "test_data.csv"))
+        anger_test_data = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "anger-ratings-0to1.test.target.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        fear_test_data = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "fear-ratings-0to1.test.target.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        joy_test_data = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "joy-ratings-0to1.test.target.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        sadness_test_data = pd.read_csv(
+            os.path.join(OTHERS_RAW_DATA, "sadness-ratings-0to1.test.target.txt"),
+            sep="\t",
+            header=None,
+        )[[1, 2]]
+        other_data = merge_dataset(
+            [
+                anger_0,
+                anger_1,
+                anger_test_data,
+                fear_0,
+                fear_1,
+                fear_test_data,
+                joy_0,
+                joy_1,
+                joy_test_data,
+                sadness_0,
+                sadness_1,
+                sadness_test_data,
+            ],
+            [1],
+        )
+        other_data = other_data.rename(columns={1: "content", 2: "sentiment"})
+        other_data.loc[other_data["sentiment"] == "joy", "sentiment"] = "happiness"
+        other_train_data, other_test_data = stratified_split(
+            other_data, "sentiment", split_ratio=0.15
+        )
+        merged_train_data = merge_dataset([kaggle_data, other_train_data], "content")
+        train_data, val_data = stratified_split(merged_train_data, split_col="sentiment")
+        train_data.to_csv(
+            os.path.join(RAW_DATA_DIR, "raw_train_data.csv"), index=None, encoding="utf-8"
+        )
+        val_data.to_csv(
+            os.path.join(RAW_DATA_DIR, "raw_val_data.csv"), index=None, encoding="utf-8"
+        )
+        other_test_data.to_csv(
+            os.path.join(RAW_DATA_DIR, "raw_test_data_others.csv"),
+            index=None,
+            encoding="utf-8",
+        )
+        kaggle_test_data.to_csv(
+            os.path.join(RAW_DATA_DIR, "raw_test_data_kaggle.csv"),
+            index=None,
+            encoding="utf-8",
+        )
+        return True
+    except Exception as e:
+        logger.error("Exception in reading and writing all raw dataset : {}".format(str(e)))
+        return False

@@ -8,6 +8,7 @@ import numpy as np
 from sklearn.model_selection import StratifiedShuffleSplit
 
 from settings import RAW_DATA_DIR, ORIG_DATA_DIR, TEST_DATA_DIR, LUCKY_SEED
+from .helpers import logger
 
 
 def read_csv_data(path, header="infer"):
@@ -20,9 +21,12 @@ def stratified_split(data, split_col, n_splits=1, split_ratio=0.2):
     )
     train_set = None
     test_set = None
-    for train_index, test_index in split.split(data, data[split_col]):
-        train_set = data.loc[train_index]
-        test_set = data.loc[test_index]
+    try:
+        for train_index, test_index in split.split(data, data[split_col]):
+            train_set = data.loc[train_index]
+            test_set = data.loc[test_index]
+    except Exception as e:
+        logger.error("Exception in Stratified split : {}".format(str(e)))
     return train_set, test_set
 
 

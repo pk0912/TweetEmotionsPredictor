@@ -2,13 +2,10 @@
 Python script for data pre-processing
 """
 
-import os
 import re
-import pandas as pd
 
 import utils.text_processing as tp
 from utils.helpers import logger
-from settings import RAW_DATA_DIR, COMPLEX_PROCESSED_DATA_DIR, SIMPLE_PROCESSED_DATA_DIR
 
 
 def remove_referenced_name(text):
@@ -37,8 +34,12 @@ def complex_processing(text):
 
 
 def preprocess(data, preprocess_type="simple"):
-    if preprocess_type == "simple":
-        data["text"] = data["content"].map(simple_processing)
-    else:
-        data["text"] = data["content"].map(complex_processing)
-    return data[["text", "sentiment"]]
+    try:
+        if preprocess_type == "simple":
+            data["text"] = data["content"].map(simple_processing)
+        else:
+            data["text"] = data["content"].map(complex_processing)
+        return data[["text", "sentiment"]]
+    except Exception as e:
+        logger.error("Exception in pre-processing : {}".format(str(e)))
+    return None

@@ -43,25 +43,31 @@ logger = Logging().logging
 
 
 def download_and_write_to_file(url, filepath):
-    response = request.urlopen(url)
-    content = response.read()
-    with open(filepath, "wb") as f:
-        f.write(content)
+    try:
+        response = request.urlopen(url)
+        content = response.read()
+        with open(filepath, "wb") as f:
+            f.write(content)
+    except Exception as e:
+        logger.error("Exception in reading from url and writing locally : {}".format(str(e)))
 
 
 def read_csv_data(path, keep_columns=[], drop_cols=[]):
-    data = pd.read_csv(path, encoding="utf-8")
-    if len(keep_columns) > 0:
-        data = data[keep_columns]
-    data = data.dropna(subset=drop_cols, how="all")
-    data = data.sample(frac=1, random_state=LUCKY_SEED).reset_index(drop=True)
-    return data
+    try:
+        data = pd.read_csv(path, encoding="utf-8")
+        if len(keep_columns) > 0:
+            data = data[keep_columns]
+        data = data.dropna(subset=drop_cols, how="all")
+        data = data.sample(frac=1, random_state=LUCKY_SEED).reset_index(drop=True)
+        return data
+    except Exception as e:
+        logger.error("Exception in reading csv data : {}".format(str(e)))
 
 
 def save_objects(obj, path):
     try:
         dump(obj, path)
     except Exception as e:
-        print("ERROR IN SAVING OBJECT : ", e)
+        logger.error("ERROR IN SAVING OBJECT : {}".format(str(e)))
         return False
     return True
