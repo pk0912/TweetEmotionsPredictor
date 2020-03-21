@@ -1,4 +1,5 @@
 import os
+import logging
 
 LUCKY_SEED = 42
 TRAIN_FILE_COUNT = 43
@@ -35,3 +36,9 @@ TF_HUB_EMBEDDING_MODELS = [
     "https://tfhub.dev/google/universal-sentence-encoder/4",
     "https://tfhub.dev/google/tf2-preview/nnlm-en-dim50/1",
 ]
+
+LOG_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(filename)s | %(lineno)d | %(message)s"
+LOG_LEVEL = "DEBUG"
+LOG_FILE = os.path.join(LOGS_DIR, "sentiment_analysis.log")
+LOG_FILE_MAX_BYTES = 1048576
+LOG_FILE_BACKUP_COUNT = 2
