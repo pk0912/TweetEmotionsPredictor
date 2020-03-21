@@ -10,8 +10,8 @@
 
 import os
 import pandas as pd
-from .helpers import download_and_write_to_file
-from .dataset_split import stratified_split
+from utils.helpers import download_and_write_to_file, logger
+from utils.dataset_split import stratified_split
 
 from settings import RAW_DATA_DIR, ORIG_DATA_DIR, OTHERS_RAW_DATA, LUCKY_SEED
 
@@ -49,6 +49,7 @@ def merge_dataset(df_list, drop_dup_cols):
 
 
 def read_all_data():
+    logger.info("Creating raw training, validation and testing dataset.")
     kaggle_data = pd.read_csv(os.path.join(ORIG_DATA_DIR, "train_data.csv"))
     anger_0 = pd.read_csv(
         os.path.join(OTHERS_RAW_DATA, "anger-ratings-0to1.train.txt"),
@@ -151,8 +152,3 @@ def read_all_data():
         index=None,
         encoding="utf-8",
     )
-
-
-if __name__ == "__main__":
-    # fetch_and_save_raw_data()
-    read_all_data()
