@@ -6,7 +6,12 @@ import pandas as pd
 from utils.helpers import logger
 from raw_data_ingest_merge import fetch_and_save_raw_data, read_all_data
 from preprocessing import preprocess
-from config import DOWNLOAD_RAW_DATA, CREATE_RAW_DATASET, SIMPLE_PROCESSING_TYPE, COMPLEX_PROCESSING_TYPE
+from config import (
+    DOWNLOAD_RAW_DATA,
+    CREATE_RAW_DATASET,
+    SIMPLE_PROCESSING_TYPE,
+    COMPLEX_PROCESSING_TYPE,
+)
 from settings import RAW_DATA_DIR, SIMPLE_PROCESSED_DATA_DIR, COMPLEX_PROCESSED_DATA_DIR
 
 
@@ -29,7 +34,10 @@ def main():
             logger.info("Performing simple text processing.")
             train_data_simple = preprocess(train_data)
             val_data_simple = preprocess(val_data)
-            if type(train_data_simple) == pd.core.frame.DataFrame and type(val_data_simple) == pd.core.frame.DataFrame:
+            if (
+                type(train_data_simple) == pd.core.frame.DataFrame
+                and type(val_data_simple) == pd.core.frame.DataFrame
+            ):
                 train_data_simple.to_csv(
                     os.path.join(SIMPLE_PROCESSED_DATA_DIR, "train_data_simple.csv"),
                     index=False,
@@ -46,7 +54,10 @@ def main():
             logger.info("Performing complex text processing.")
             train_data_complex = preprocess(train_data, preprocess_type="complex")
             val_data_complex = preprocess(val_data, preprocess_type="complex")
-            if type(train_data_complex) == pd.core.frame.DataFrame and type(val_data_complex) == pd.core.frame.DataFrame:
+            if (
+                type(train_data_complex) == pd.core.frame.DataFrame
+                and type(val_data_complex) == pd.core.frame.DataFrame
+            ):
                 train_data_complex.to_csv(
                     os.path.join(COMPLEX_PROCESSED_DATA_DIR, "train_data_complex.csv"),
                     index=False,

@@ -136,9 +136,13 @@ def read_all_data():
             other_data, "sentiment", split_ratio=0.15
         )
         merged_train_data = merge_dataset([kaggle_data, other_train_data], "content")
-        train_data, val_data = stratified_split(merged_train_data, split_col="sentiment")
+        train_data, val_data = stratified_split(
+            merged_train_data, split_col="sentiment"
+        )
         train_data.to_csv(
-            os.path.join(RAW_DATA_DIR, "raw_train_data.csv"), index=None, encoding="utf-8"
+            os.path.join(RAW_DATA_DIR, "raw_train_data.csv"),
+            index=None,
+            encoding="utf-8",
         )
         val_data.to_csv(
             os.path.join(RAW_DATA_DIR, "raw_val_data.csv"), index=None, encoding="utf-8"
@@ -155,5 +159,7 @@ def read_all_data():
         )
         return True
     except Exception as e:
-        logger.error("Exception in reading and writing all raw dataset : {}".format(str(e)))
+        logger.error(
+            "Exception in reading and writing all raw dataset : {}".format(str(e))
+        )
         return False

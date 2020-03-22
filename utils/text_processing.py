@@ -111,6 +111,7 @@ def get_decontracted_form(text):
     text = re.sub(r"[\']ve", " have", text)
     text = re.sub(r"[\']m", " am", text)
     text = re.sub(r"[\']em", " them", text)
+    text = re.sub(r"[\']s", " is", text)
     return text
 
 

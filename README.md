@@ -23,6 +23,15 @@ Performing sentiment analysis over tweets to predict emotions attached with the 
 #### PROJECT SETUP
 ```bash
 make -f Makefile
-python __init__.py
+python init.py
+```
+
+#### RUN PRE-COMMIT
+```bash
+pre-commit install
+```
+
+#### EXECUTING
+```bash
 python run.py
 ```

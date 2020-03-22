@@ -49,7 +49,9 @@ def download_and_write_to_file(url, filepath):
         with open(filepath, "wb") as f:
             f.write(content)
     except Exception as e:
-        logger.error("Exception in reading from url and writing locally : {}".format(str(e)))
+        logger.error(
+            "Exception in reading from url and writing locally : {}".format(str(e))
+        )
 
 
 def read_csv_data(path, keep_columns=[], drop_cols=[]):

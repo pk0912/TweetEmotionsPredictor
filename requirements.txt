@@ -5,6 +5,8 @@ matplotlib
 numpy
 nltk
 pandas
+pre-commit
+pytest
 scikit-learn
 seaborn
 statsmodels
