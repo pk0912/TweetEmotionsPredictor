@@ -27,6 +27,7 @@ def complex_processing(text):
     text = tp.general_regex(text)
     text = tp.get_decontracted_form(text)
     text = tp.keep_alpha_space(text)
+    text = tp.remove_repeating_chars(text)
     text = tp.remove_stopwords(text)
     if text != "":
         text = tp.perform_lemmatization(text)

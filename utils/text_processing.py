@@ -39,25 +39,27 @@ def remove_repeating_words(words):
         return []
 
 
-def remove_repeating_chars(word):
-    if len(word) > 2:
-        word_lst = list(word)
-        count = 0
-        lenth = len(word_lst)
-        i = 1
-        while i < lenth:
-            if i < lenth:
-                if word_lst[i - 1] != word_lst[i]:
-                    count = 0
-                else:
-                    count += 1
-                if count >= 2:
-                    word_lst.pop(i)
-                    i -= 1
-                    lenth = len(word_lst)
-            i += 1
-        word = "".join(word_lst)
-    return word
+def remove_repeating_chars(text):
+    words = text.split()
+    for w in range(len(words)):
+        word_lst = list(words[w])
+        if len(words[w]) > 2:
+            count = 0
+            lenth = len(word_lst)
+            i = 1
+            while i < lenth:
+                if i < lenth:
+                    if word_lst[i - 1] != word_lst[i]:
+                        count = 0
+                    else:
+                        count += 1
+                    if count >= 2:
+                        word_lst.pop(i)
+                        i -= 1
+                        lenth = len(word_lst)
+                i += 1
+        words[w] = "".join(word_lst)
+    return " ".join(words).strip()
 
 
 def remove_ly(word):
@@ -75,7 +77,6 @@ def perform_lemmatization(text):
     token_list = []
     for token in tokens:
         word = token.text
-        word = remove_repeating_chars(word)
         if token.lemma_ != "-PRON-":
             token_list.append(remove_ly(token.lemma_))
         else:

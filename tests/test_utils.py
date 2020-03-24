@@ -31,6 +31,11 @@ class TestTextProcessing:
         assert tp.remove_repeating_chars("woord") == "woord"
         assert tp.remove_repeating_chars("") == ""
         assert tp.remove_repeating_chars("word") == "word"
+        assert tp.remove_repeating_chars("xxx") == "xx"
+        assert (
+            tp.remove_repeating_chars("tickets mtv movie awards scammmed")
+            == "tickets mtv movie awards scammed"
+        )
 
     def test_remove_ly(self):
         assert tp.remove_ly("beautifully") == "beautiful"
