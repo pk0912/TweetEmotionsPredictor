@@ -39,7 +39,9 @@ def preprocess(data, preprocess_type="simple"):
             data["text"] = data["content"].map(simple_processing)
         else:
             data["text"] = data["content"].map(complex_processing)
-        return data[["text", "sentiment"]]
+        data = data[["text", "sentiment"]].dropna()
+        data = data.drop(data.loc[data["text"] == ""].index)
+        return data.reset_index(drop=True)
     except Exception as e:
         logger.error("Exception in pre-processing : {}".format(str(e)))
     return None

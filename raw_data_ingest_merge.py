@@ -43,6 +43,7 @@ def merge_dataset(df_list, drop_dup_cols):
     return (
         pd.concat(df_list)
         .sample(frac=1, random_state=LUCKY_SEED)
+        .dropna()
         .drop_duplicates(subset=drop_dup_cols)
         .reset_index(drop=True)
     )

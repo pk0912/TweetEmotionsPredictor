@@ -25,11 +25,10 @@ os.makedirs(
     os.path.join(settings.ROOT_DIR, "data/processed_data/complex"), exist_ok=True
 )
 os.makedirs(
-    os.path.join(settings.ROOT_DIR, "data/training_data/one_hot_encoded"), exist_ok=True
+    os.path.join(settings.ROOT_DIR, "data/training_data/word_2_index"), exist_ok=True
 )
 os.makedirs(
-    os.path.join(settings.ROOT_DIR, "data/validation_data/one_hot_encoded"),
-    exist_ok=True,
+    os.path.join(settings.ROOT_DIR, "data/validation_data/word_2_index"), exist_ok=True
 )
 os.makedirs(os.path.join(settings.ROOT_DIR, "data/training_data/tf_idf"), exist_ok=True)
 os.makedirs(
