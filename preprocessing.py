@@ -15,16 +15,16 @@ def remove_referenced_name(text):
 
 def simple_processing(text):
     text = tp.unicode_normalize(text)
-    text = remove_referenced_name(text)
     text = tp.general_regex(text)
+    text = remove_referenced_name(text)
     return text
 
 
 def complex_processing(text):
     text = tp.unicode_normalize(text)
-    text = remove_referenced_name(text)
     text = tp.lowercasing(text)
     text = tp.general_regex(text)
+    text = remove_referenced_name(text)
     text = tp.get_decontracted_form(text)
     text = tp.keep_alpha_space(text)
     text = tp.remove_repeating_chars(text)
@@ -40,7 +40,7 @@ def preprocess(data, preprocess_type="simple"):
             data["text"] = data["content"].map(simple_processing)
         else:
             data["text"] = data["content"].map(complex_processing)
-        data = data[["text", "sentiment"]].dropna()
+        data = data[["text", "type"]].dropna()
         data = data.drop(data.loc[data["text"] == ""].index)
         return data.reset_index(drop=True)
     except Exception as e:

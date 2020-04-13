@@ -102,3 +102,28 @@ class TestTextProcessing:
     def test_get_embeddings(self):
         # TODO
         pass
+
+    def test_get_word_vec(self):
+        assert (
+            len(
+                tp.get_word_vec(
+                    "/Users/praveenkumar/Own_works/resources/nlp/glove/glove.6B.100d.txt"
+                )
+            )
+            != 0
+        )
+
+    def test_get_tokenizer_object(self):
+        assert (
+            tp.get_tokenizer_object(
+                ["This is first sentence", "This is second sentence"]
+            )
+            is not None
+        )
+
+    def test_get_text_sequences(self):
+        sentences = ["This is first sentence", "This is second sentence"]
+        tokenizer = tp.get_tokenizer_object(sentences)
+        assert (
+            tp.get_text_sequences(tokenizer, sentences) == [[1, 2, 4, 3], [1, 2, 5, 3]]
+        ).all()

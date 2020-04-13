@@ -10,10 +10,23 @@
 
 import os
 import pandas as pd
-from utils.helpers import download_and_write_to_file, logger
+from sklearn.preprocessing import LabelEncoder
+
+from utils.helpers import (
+    download_and_write_to_file,
+    logger,
+    save_csv_data,
+    save_objects,
+)
 from utils.dataset_split import stratified_split
 
-from settings import RAW_DATA_DIR, ORIG_DATA_DIR, OTHERS_RAW_DATA, LUCKY_SEED
+from settings import (
+    RAW_DATA_DIR,
+    ORIG_DATA_DIR,
+    OTHERS_RAW_DATA,
+    LUCKY_SEED,
+    OBJECTS_DIR,
+)
 
 
 file_urls = [
@@ -49,8 +62,14 @@ def merge_dataset(df_list, drop_dup_cols):
     )
 
 
+def perform_label_encoding(data):
+    le = LabelEncoder()
+    encoded_data = le.fit_transform(data)
+    return le, encoded_data
+
+
 def read_all_data():
-    logger.info("Creating raw training, validation and testing dataset.")
+    logger.info("Creating raw training and testing dataset.")
     try:
         kaggle_data = pd.read_csv(os.path.join(ORIG_DATA_DIR, "train_data.csv"))
         anger_0 = pd.read_csv(
@@ -133,30 +152,21 @@ def read_all_data():
         )
         other_data = other_data.rename(columns={1: "content", 2: "sentiment"})
         other_data.loc[other_data["sentiment"] == "joy", "sentiment"] = "happiness"
-        other_train_data, other_test_data = stratified_split(
-            other_data, "sentiment", split_ratio=0.15
+        merged_data = merge_dataset([kaggle_data, other_data], "content")
+        lbl_encoder_obj, merged_data["type"] = perform_label_encoding(
+            merged_data["sentiment"]
         )
-        merged_train_data = merge_dataset([kaggle_data, other_train_data], "content")
-        train_data, val_data = stratified_split(
-            merged_train_data, split_col="sentiment"
-        )
-        train_data.to_csv(
-            os.path.join(RAW_DATA_DIR, "raw_train_data.csv"),
-            index=None,
-            encoding="utf-8",
-        )
-        val_data.to_csv(
-            os.path.join(RAW_DATA_DIR, "raw_val_data.csv"), index=None, encoding="utf-8"
-        )
-        other_test_data.to_csv(
-            os.path.join(RAW_DATA_DIR, "raw_test_data_others.csv"),
-            index=None,
-            encoding="utf-8",
-        )
-        kaggle_test_data.to_csv(
-            os.path.join(RAW_DATA_DIR, "raw_test_data_kaggle.csv"),
-            index=None,
-            encoding="utf-8",
+        if not save_objects(
+            lbl_encoder_obj, os.path.join(OBJECTS_DIR, "label_encoder.joblib")
+        ):
+            logger.error("Exception in saving label encoder object!!!")
+            return False
+        merged_data.drop(columns=["sentiment"], inplace=True)
+        train_data, test_data = stratified_split(merged_data, split_col="type")
+        save_csv_data(train_data, os.path.join(RAW_DATA_DIR, "raw_train_data.csv"))
+        save_csv_data(test_data, os.path.join(RAW_DATA_DIR, "raw_test_data.csv"))
+        save_csv_data(
+            kaggle_test_data, os.path.join(RAW_DATA_DIR, "raw_test_data_kaggle.csv")
         )
         return True
     except Exception as e:

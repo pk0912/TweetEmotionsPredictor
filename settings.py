@@ -7,6 +7,7 @@ VAL_FILE_COUNT = 12
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 OBJECTS_DIR = os.path.join(ROOT_DIR, "objects")
+OUTPUTS_DIR = os.path.join(ROOT_DIR, "outputs")
 LOGS_DIR = os.path.join(ROOT_DIR, "logs")
 DATA_DIR = os.path.join(ROOT_DIR, "data")
 
@@ -21,11 +22,11 @@ SIMPLE_PROCESSED_DATA_DIR = os.path.join(PROCESSED_DATA_DIR, "simple")
 TEST_DATA_DIR = os.path.join(DATA_DIR, "testing_data")
 
 TRAIN_DATA_DIR = os.path.join(DATA_DIR, "training_data")
-TRAIN_DATA_DIR_OHE = os.path.join(TRAIN_DATA_DIR, "one_hot_encoded")
+TRAIN_DATA_DIR_WI = os.path.join(TRAIN_DATA_DIR, "word_2_index")
 TRAIN_DATA_DIR_TF_IDF = os.path.join(TRAIN_DATA_DIR, "tf_idf")
 
 VAL_DATA_DIR = os.path.join(DATA_DIR, "validation_data")
-VAL_DATA_DIR_OHE = os.path.join(VAL_DATA_DIR, "one_hot_encoded")
+VAL_DATA_DIR_WI = os.path.join(VAL_DATA_DIR, "word_2_index")
 VAL_DATA_DIR_TF_IDF = os.path.join(VAL_DATA_DIR, "tf_idf")
 
 SPACY_MEDIUM_MODEL = "en_core_web_md"
